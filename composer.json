@@ -1,0 +1,13 @@
+{
+    "name":    "phpdocumentor/scrybe",
+    "license": "MIT",
+    "require": {
+        "cilex/cilex": "dev-master",
+        "symfony/finder": "2.1.*",
+        "dflydev/markdown": "1.*",
+        "twig/twig": "1.8.*"
+    },
+    "autoload": {
+        "psr-0":{ "phpDocumentor": "src/" }
+    }
+}

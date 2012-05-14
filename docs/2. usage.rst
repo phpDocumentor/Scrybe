@@ -1,0 +1,10 @@
+Usage
+=====
+
+This is an *example* of Markdown processing.
+
+* 1
+* 2
+* 3
+
+.. image:: images/logo.png
