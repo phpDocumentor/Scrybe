@@ -4,5 +4,5 @@ require_once __DIR__.'/vendor/.composer/autoload.php';
 
 use phpDocumentor\Scrybe\Compiler;
 
-$compiler = new Compiler();
+$compiler = new PharCompiler();
 $compiler->compile();

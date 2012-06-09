@@ -1,5 +1,4 @@
 <?php
-
 /*
  * This file is part of phpDocumentor.
  *
@@ -22,7 +21,7 @@ use Symfony\Component\Process\Process;
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Mike van Riel <mike.vanriel@naenius.com>
  */
-class Compiler
+class PharCompiler
 {
     protected $version;
 
@@ -33,7 +32,7 @@ class Compiler
      *
      * @return void
      */
-    public function compile($pharFile = 'cilex.phar')
+    public function compile($pharFile = 'scrybe.phar')
     {
         if (file_exists($pharFile)) {
             unlink($pharFile);
@@ -55,16 +54,21 @@ class Compiler
             ->ignoreVCS(true)
             ->name('*.php')
             ->notName('Compiler.php')
-            ->in(__DIR__.'/..')
-            ->in(__DIR__.'/../../vendor')
+            ->in(__DIR__.'/../..')
+            ->in(__DIR__.'/../../../vendor')
         ;
 
         foreach ($finder as $file) {
             $this->addFile($phar, $file);
         }
 
-        $this->addFile($phar, new \SplFileInfo(__DIR__.'/../../LICENSE'), false);
-
+        $this->addFile($phar, new \SplFileInfo(__DIR__ . '/../../../LICENSE'), false);
+        $this->addFile($phar, new \SplFileInfo(__DIR__ . '/../../../bin/scrybe.php'));
+        $this->addFile($phar, new \SplFileInfo(__DIR__ . '/../../../vendor/autoload.php'));
+        $this->addFile($phar, new \SplFileInfo(__DIR__ . '/../../../vendor/.composer/autoload.php'));
+        $this->addFile($phar, new \SplFileInfo(__DIR__ . '/../../../vendor/.composer/ClassLoader.php'));
+        $this->addFile($phar, new \SplFileInfo(__DIR__ . '/../../../vendor/.composer/autoload_namespaces.php'));
+        $this->addFile($phar, new \SplFileInfo(__DIR__ . '/../../../vendor/.composer/autoload_classmap.php'));
         // Stubs
         $phar->setStub($this->getStub());
 
@@ -78,8 +82,9 @@ class Compiler
     protected function addFile(\Phar $phar, \splFileInfo $file, $strip = true)
     {
         $path = str_replace(
-            dirname(dirname(__DIR__)).DIRECTORY_SEPARATOR, '', $file->getRealPath()
+            dirname(dirname(dirname(__DIR__))).DIRECTORY_SEPARATOR, '', $file->getRealPath()
         );
+        var_dump($path);
 
         $content = file_get_contents($file);
         if ($strip) {
@@ -137,6 +142,8 @@ if ('cli' === php_sapi_name() && basename(__FILE__) === basename($_SERVER['argv'
 
     exit(0);
 }
+
+require 'phar://scrybe.phar/bin/scrybe.php';
 
 __HALT_COMPILER();
 EOF;
