@@ -1,13 +1,15 @@
 {
     "name":    "phpdocumentor/scrybe",
     "license": "MIT",
+    "autoload": {
+        "psr-0":{ "": "src/" }
+    },
     "require": {
         "cilex/cilex": "dev-master",
-        "symfony/finder": "2.1.*",
+        "phpdocumentor/fileset": "dev-master",
+        "symfony/process": "2.*",
         "dflydev/markdown": "1.*",
+        "zetacomponents/document": "dev-master",
         "twig/twig": "1.8.*"
-    },
-    "autoload": {
-        "psr-0":{ "phpDocumentor": "src/" }
     }
 }

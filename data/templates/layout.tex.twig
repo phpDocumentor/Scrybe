@@ -1,8 +1,6 @@
 {% raw %}
-\documentclass{book}
+\documentclass[11pt,titlepage,a4paper]{report}
 \usepackage{amssymb,amsmath}
-\usepackage[mathletters]{ucs}
-\usepackage[utf8x]{inputenc}
 \usepackage{graphicx}
 % We will generate all images so they have a width \maxwidth. This means
 % that they will get their normal width if they fit onto the page, but
@@ -19,9 +17,25 @@
 \setcounter{secnumdepth}{0}
 {% endraw %}
 
+\title{{'{'}}
+  {% if coverlogo %}\includegraphics{{'{'}}{{coverlogo}}}\\{% endif %}
+  {{title}}
+}
+\author{{'{'}}{{author}}}
+\date{\today}
 
 \begin{document}
 
-{#{{ contents }}#}
+\sffamily
+
+{% if title or coverlogo %}
+\maketitle
+{% endif %}
+
+{% if toc %}
+\tableofcontents
+{% endif %}
+
+{{ contents }}
 
 \end{document}
