@@ -14,7 +14,7 @@ namespace phpDocumentor\Scrybe\Converter\RestructuredText\Directives;
 
 use \phpDocumentor\Scrybe\Converter\RestructuredText\Visitors\Discover;
 
-class Image extends \ezcDocumentRstImageDirective
+class Figure extends \ezcDocumentRstFigureDirective
 {
     /** @var Discover */
     protected $visitor;

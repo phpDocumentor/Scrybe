@@ -15,7 +15,6 @@ namespace phpDocumentor\Scrybe\Converter;
 use phpDocumentor\Fileset\Collection;
 use phpDocumentor\Scrybe\Template\TemplateInterface;
 
-
 interface ConverterInterface
 {
     /**
@@ -82,4 +81,28 @@ interface ConverterInterface
      * @return void
      */
     public function setOption($name, $value);
+
+    /**
+     * Returns the AssetManager that keep track of which assets are used.
+     *
+     * @return \phpDocumentor\Scrybe\Converter\Metadata\Assets
+     */
+    public function getAssets();
+
+    /**
+     * Returns the table of contents object that keeps track of all
+     * headings and their titles.
+     *
+     * @return \phpDocumentor\Scrybe\Converter\Metadata\TableOfContents
+     */
+    public function getTableOfContents();
+
+    /**
+     * Returns the glossary object that keeps track of all the glossary terms
+     * that have been provided.
+     *
+     * @return \phpDocumentor\Scrybe\Converter\Metadata\Glossary
+     */
+    public function getGlossary();
+
 }

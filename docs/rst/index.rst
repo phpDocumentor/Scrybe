@@ -7,6 +7,7 @@ Scrybe Documentation
    introduction
    usage
    extending
+   test/test
 
 
 .. image:: logo.png

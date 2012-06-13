@@ -14,15 +14,17 @@ namespace phpDocumentor\Scrybe\Converter\RestructuredText;
 
 use phpDocumentor\Scrybe\Logger;
 use phpDocumentor\Fileset\File;
+use phpDocumentor\Scrybe\Converter\ConverterInterface;
 
 /**
  * @property \ezcDocumentRstOptions $options
  */
 class Document extends \ezcDocumentRst
 {
-    protected $meta_data = array();
+    protected $file;
+    protected $converter;
 
-    function __construct(File $file)
+    function __construct(ConverterInterface $converter, File $file)
     {
         parent::__construct();
 
@@ -37,21 +39,37 @@ class Document extends \ezcDocumentRst
             'image',
             'phpDocumentor\Scrybe\Converter\RestructuredText\Directives\Image'
         );
+        $this->registerDirective(
+            'figure',
+            'phpDocumentor\Scrybe\Converter\RestructuredText\Directives\Figure'
+        );
         $this->registerRole(
             'doc', 'phpDocumentor\Scrybe\Converter\RestructuredText\Roles\Doc'
         );
 
+        $this->file = $file;
+        $this->converter = $converter;
         $this->loadString($file->fread());
     }
 
-    public function setMetaData($name, $value)
+    /**
+     * Returns the converter responsible for converting this object.
+     *
+     * @return \phpDocumentor\Scrybe\Converter\ConverterInterface
+     */
+    public function getConverter()
     {
-        $this->meta_data[$name] = $value;
+        return $this->converter;
     }
 
-    public function getMetaData($name)
+    /**
+     * Returns the file associated with this document.
+     *
+     * @return \phpDocumentor\Fileset\File
+     */
+    public function getFile()
     {
-        return isset($this->meta_data[$name]) ? $this->meta_data[$name] : null;
+        return $this->file;
     }
 
     /**
@@ -81,5 +99,6 @@ class Document extends \ezcDocumentRst
         }
         Logger::getInstance()->log();
     }
+
 }
 

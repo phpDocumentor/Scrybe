@@ -20,5 +20,77 @@ namespace phpDocumentor\Scrybe\Converter\Metadata;
  */
 class Assets extends \ArrayObject
 {
+    /**
+     * @var string
+     */
+    protected $project_root;
 
+    /**
+     * Sets the project root for the given assets.
+     *
+     * @param string $project_root
+     *
+     * @throws \RuntimeException if the container already contains items.
+     *
+     * @return void
+     */
+    public function setProjectRoot($project_root)
+    {
+        if (count($this) > 0) {
+            throw new \RuntimeException(
+                'The project root may only be set on an empty asset container'
+            );
+        }
+        $this->project_root = $project_root;
+    }
+
+    /**
+     * Returns the project root for the given assets.
+     *
+     * @return string
+     */
+    public function getProjectRoot()
+    {
+        return $this->project_root;
+    }
+
+    /**
+     * Sets an asset to be copied to the given destination path.
+     *
+     * @param string $source_path
+     * @param string $destination_path
+     *
+     * @return void
+     */
+    public function set($source_path, $destination_path)
+    {
+        $this[$source_path] = $destination_path;
+    }
+
+    /**
+     * Copies all assets in this collection to their given destination location.
+     *
+     * @param string $destination
+     *
+     * @return void
+     */
+    public function copyTo($destination)
+    {
+        foreach($this as $source_path => $asset_path)
+        {
+            if (!is_readable($source_path)) {
+                \phpDocumentor\Scrybe\Logger::getInstance()->error(
+                    'Asset "'.$source_path.'" could not be found or is not '
+                    .'readable'
+                );
+            }
+
+            $destination_path = $destination.'/'.$asset_path;
+            if (!file_exists(dirname($destination_path))) {
+                mkdir(dirname($destination_path), 0777, true);
+            }
+
+            copy($source_path, $destination_path);
+        }
+    }
 }

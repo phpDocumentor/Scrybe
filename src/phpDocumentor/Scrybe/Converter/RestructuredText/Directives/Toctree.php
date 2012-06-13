@@ -72,5 +72,3 @@ class Toctree extends \ezcDocumentRstDirective
         }
     }
 }
-
-?>

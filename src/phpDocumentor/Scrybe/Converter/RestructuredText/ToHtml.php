@@ -24,22 +24,6 @@ class ToHtml extends BaseConverter implements ToHtmlInterface
     /** @var \ezcDocumentRstOptions */
     protected $options;
 
-    /** @var \phpDocumentor\Scrybe\Converter\Metadata\TableOfContents */
-    protected $toc;
-
-    /**
-     * Configures and initializes the subcomponents specific to this converter.
-     *
-     * For RestructuredText we can build a Table of Contents, which we
-     * initialize here.
-     *
-     * @return void
-     */
-    public function configure()
-    {
-        $this->toc = new \phpDocumentor\Scrybe\Converter\Metadata\TableOfContents();
-    }
-
     /**
      * Discovers the data that is spanning all files.
      *
@@ -59,7 +43,7 @@ class ToHtml extends BaseConverter implements ToHtmlInterface
     {
         /** @var File $file */
         foreach($this->fileset as $file) {
-            $rst = $this->createDocumentForFile($file);
+            $rst = new Document($this, $file);
             $rst->options->xhtmlVisitor
                 = 'phpDocumentor\Scrybe\Converter\RestructuredText\Visitors\Discover';
 
@@ -100,7 +84,7 @@ class ToHtml extends BaseConverter implements ToHtmlInterface
 
         /** @var File $file */
         foreach($this->fileset as $file) {
-            $rst = $this->createDocumentForFile($file);
+            $rst = new Document($this, $file);
 
             Logger::getInstance()->log(
                 '> Parsing file "' . $file->getRealPath() . '"'
@@ -130,23 +114,6 @@ class ToHtml extends BaseConverter implements ToHtmlInterface
         }
 
         return $result;
-    }
-
-    /**
-     * Creates the RST Reader with the given options.
-     *
-     * @param File $file
-     *
-     * @return Document
-     */
-    protected function createDocumentForFile(File $file) {
-        $rst = new Document($file);
-        $rst->setMetaData('toc', $this->toc);
-        $rst->setMetaData(
-            'file', $this->getDestinationFilenameRelativeToProjectRoot($file)
-        );
-
-        return $rst;
     }
 
 }

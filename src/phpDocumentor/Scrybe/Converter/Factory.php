@@ -124,15 +124,6 @@ class Factory
     protected function getDefaultConverters()
     {
         return array(
-            '\phpDocumentor\Scrybe\Converter\Markdown\ToHtml' => array(
-                Format\Format::MARKDOWN, Format\Format::HTML
-            ),
-            '\phpDocumentor\Scrybe\Converter\Markdown\ToLatex' => array(
-                Format\Format::MARKDOWN, Format\Format::LATEX
-            ),
-            '\phpDocumentor\Scrybe\Converter\Markdown\ToPdf' => array(
-                Format\Format::MARKDOWN, Format\Format::PDF
-            ),
             '\phpDocumentor\Scrybe\Converter\RestructuredText\ToHtml' => array(
                 Format\Format::RST, Format\Format::HTML
             ),

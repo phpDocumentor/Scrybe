@@ -15,6 +15,7 @@ namespace phpDocumentor\Scrybe\Converter;
 use phpDocumentor\Fileset\Collection;
 use phpDocumentor\Fileset\File;
 use phpDocumentor\Scrybe\Template\TemplateInterface;
+use \phpDocumentor\Scrybe\Converter\Metadata;
 
 abstract class BaseConverter implements ConverterInterface
 {
@@ -30,6 +31,15 @@ abstract class BaseConverter implements ConverterInterface
     /** @var Collection */
     protected $fileset;
 
+    /** @var Metadata\Assets */
+    protected $assets;
+
+    /** @var Metadata\TableOfContents */
+    protected $toc;
+
+    /** @var Metadata\Glossary */
+    protected $glossary;
+
     /**
      * Initializes this converter and sets the definition.
      *
@@ -38,6 +48,41 @@ abstract class BaseConverter implements ConverterInterface
     function __construct(Definition\Definition $definition)
     {
         $this->definition = $definition;
+        $this->assets     = new Metadata\Assets();
+        $this->toc        = new Metadata\TableOfContents();
+        $this->glossary   = new Metadata\Glossary();
+    }
+
+    /**
+     * Returns the AssetManager that keep track of which assets are used.
+     *
+     * @return \phpDocumentor\Scrybe\Converter\Metadata\Assets
+     */
+    public function getAssets()
+    {
+        return $this->assets;
+    }
+
+    /**
+     * Returns the table of contents object that keeps track of all
+     * headings and their titles.
+     *
+     * @return \phpDocumentor\Scrybe\Converter\Metadata\TableOfContents
+     */
+    public function getTableOfContents()
+    {
+        return $this->toc;
+    }
+
+    /**
+     * Returns the glossary object that keeps track of all the glossary terms
+     * that have been provided.
+     *
+     * @return \phpDocumentor\Scrybe\Converter\Metadata\Glossary
+     */
+    public function getGlossary()
+    {
+        return $this->glossary;
     }
 
     /**
@@ -146,6 +191,7 @@ abstract class BaseConverter implements ConverterInterface
     ) {
         $this->fileset      = $source;
         $this->destination  = $destination;
+        $this->assets->setProjectRoot($this->fileset->getProjectRoot());
 
         $template->setExtension(
             current($this->definition->getOutputFormat()->getExtensions())
@@ -153,7 +199,17 @@ abstract class BaseConverter implements ConverterInterface
 
         $this->configure();
         $this->discover();
-        return $this->create($template);
+        $result = $this->create($template);
+
+        // copy assets if the results are not returned to the invoker
+        if ($destination !== self::DESTINATION_RESULT) {
+            \phpDocumentor\Scrybe\Logger::getInstance()->log(
+                '> Copying assets to the destination folder'
+            );
+            $this->assets->copyTo($destination);
+        }
+
+        return $result;
     }
 
     /**
