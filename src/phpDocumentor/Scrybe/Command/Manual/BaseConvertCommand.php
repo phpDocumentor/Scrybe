@@ -105,12 +105,11 @@ DESCRIPTION
         try {
             $converter = $this->getConverter($input);
 
-            echo $converter->convert(
+            $files = $converter->convert(
                 $this->buildCollection(
                     $input->getArgument('source'),
                     $converter->getDefinition()->getInputFormat()->getExtensions()
                 ),
-                $input->getOption('target'),
                 $this->getTemplate($input)
             );
         } catch(\Exception $e) {
@@ -118,7 +117,35 @@ DESCRIPTION
             return self::RETURNCODE_ERROR;
         }
 
+        \phpDocumentor\Scrybe\Logger::getInstance()->log(
+            '> Writing converted files to disk'
+        );
+        $this->writeToDisk($files, $input->getOption('target'));
+        \phpDocumentor\Scrybe\Logger::getInstance()->log(
+            '> Writing assets to disk'
+        );
+        $converter->getAssets()->copyTo($input->getOption('target'));
+
         return self::RETURNCODE_OK;
+    }
+
+    /**
+     * @param string[] $files
+     * @param string $destination
+     */
+    protected function writeToDisk($files, $destination)
+    {
+        foreach ($files as $relative_path => $contents)
+        {
+            $full_path = $destination . '/' . $relative_path;
+
+            $destination_folder = dirname($full_path);
+            if (!file_exists($destination_folder)) {
+                mkdir($destination_folder, 0777, true);
+            }
+
+            file_put_contents($full_path, $contents);
+        }
     }
 
     /**

@@ -18,20 +18,6 @@ use phpDocumentor\Scrybe\Template\TemplateInterface;
 interface ConverterInterface
 {
     /**
-     * Constant used to let applications tell converters to return the results
-     * instead of dumping it to the provided file.
-     *
-     * Please note that this streamwrapper is fictive and cannot be used beyond
-     * this context.
-     *
-     * @var string
-     */
-    const DESTINATION_RESULT = 'scrybe://result';
-
-    const DESTINATION_STDIN  = 'php://stdin';
-    const DESTINATION_STDERR = 'php://stderr';
-
-    /**
      * Standard option used to convey the name of the template to use.
      *
      * @see \phpDocumentor\Scrybe\Command\Manual\ConverCommandAbstract::execute()
@@ -52,8 +38,6 @@ interface ConverterInterface
      * This method will return null unless the 'scrybe://result' is used.
      *
      * @param Collection        $source      Collection of input files.
-     * @param string            $destination Any file or stream to which
-     *     PHP can write or any of the defined destination constants.
      * @param TemplateInterface $template Template used to decorate the
      *     output with.
      *
@@ -61,9 +45,7 @@ interface ConverterInterface
      *
      * @return string[]|null
      */
-    public function convert(
-        Collection $source, $destination, TemplateInterface $template
-    );
+    public function convert(Collection $source, TemplateInterface $template);
 
     /**
      * Returns the definition for this Converter.

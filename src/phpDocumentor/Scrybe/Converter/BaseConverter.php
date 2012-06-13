@@ -25,9 +25,6 @@ abstract class BaseConverter implements ConverterInterface
     /** @var string[] */
     protected $options = array();
 
-    /** @var string */
-    protected $destination;
-
     /** @var Collection */
     protected $fileset;
 
@@ -154,8 +151,7 @@ abstract class BaseConverter implements ConverterInterface
      * format.
      *
      * This method reads the files, converts them into the correct format and
-     * returns the contents of the conversion if the destination is
-     * scrybe://result or writes the files directly to the destination location.
+     * returns the contents of the conversion.
      *
      * The template is used to decorate the individual files and can be obtained
      * using the `\phpDocumentor\Scrybe\Template\Factory` class.
@@ -177,20 +173,14 @@ abstract class BaseConverter implements ConverterInterface
      * This method will return null unless the 'scrybe://result' is used.
      *
      * @param Collection        $source      Collection of input files.
-     * @param string            $destination Any file or stream to which
-     *     PHP can write or any of the defined destination constants.
      * @param TemplateInterface $template Template used to decorate the
      *     output with.
      *
-     * @see DESTINATION_RESULT to use as destination to return data.
-     *
      * @return string[]|null
      */
-    public function convert(
-        Collection $source, $destination, TemplateInterface $template
-    ) {
+    public function convert(Collection $source, TemplateInterface $template)
+    {
         $this->fileset      = $source;
-        $this->destination  = $destination;
         $this->assets->setProjectRoot($this->fileset->getProjectRoot());
 
         $template->setExtension(
@@ -199,17 +189,7 @@ abstract class BaseConverter implements ConverterInterface
 
         $this->configure();
         $this->discover();
-        $result = $this->create($template);
-
-        // copy assets if the results are not returned to the invoker
-        if ($destination !== self::DESTINATION_RESULT) {
-            \phpDocumentor\Scrybe\Logger::getInstance()->log(
-                '> Copying assets to the destination folder'
-            );
-            $this->assets->copyTo($destination);
-        }
-
-        return $result;
+        return $this->create($template);
     }
 
     /**
@@ -240,22 +220,4 @@ abstract class BaseConverter implements ConverterInterface
             strlen($this->fileset->getProjectRoot())
         );
     }
-
-    /**
-     * Stores the contents to the provided path and creates the destination
-     * folder if it doesn't exist.
-     *
-     * @param string $destination
-     * @param string $converted_contents
-     */
-    protected function saveContentsToPath($destination, $converted_contents)
-    {
-        $destination_path = dirname($destination);
-        if (!file_exists($destination_path)) {
-            mkdir($destination_path, 0777, true);
-        }
-
-        file_put_contents($destination, $converted_contents);
-    }
-
 }

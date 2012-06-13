@@ -101,16 +101,10 @@ class ToHtml extends BaseConverter implements ToHtmlInterface
                 continue;
             }
 
-            if ($this->destination === self::DESTINATION_RESULT) {
-                $result[$this->getDestinationFilename($file)] = $converted_contents;
-            } else {
-                $this->saveContentsToPath(
-                    $this->destination . '/'
-                    . $this->getDestinationFilenameRelativeToProjectRoot($file),
-                    $converted_contents
-                );
-                $result = null;
-            }
+            $destination = $this->getDestinationFilenameRelativeToProjectRoot(
+                $file
+            );
+            $result[$destination] = $converted_contents;
         }
 
         return $result;
