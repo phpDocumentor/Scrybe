@@ -57,7 +57,7 @@ abstract class BaseConvertCommand extends \Cilex\Command\Command
             ->addOption(
                 'template', null, InputOption::VALUE_OPTIONAL,
                 'which template should be used to generate the documentation?',
-                'layout'
+                'default'
             )
             ->addArgument(
                 'source', InputArgument::IS_ARRAY | InputArgument::REQUIRED,

@@ -15,12 +15,15 @@ namespace phpDocumentor\Scrybe\Template;
 class Twig implements TemplateInterface
 {
     protected $extension = 'html';
-    protected $name = 'layout';
+    protected $name = 'default';
     protected $path = '';
 
+    /**
+     * Constructs the twig template and sets the default values.
+     */
     function __construct()
     {
-        $this->path = realpath(__DIR__ . '/../../../../data/templates');
+        $this->path = realpath(__DIR__ . '/../../../../data/templates/');
     }
 
     public function setName($name)
@@ -53,7 +56,7 @@ class Twig implements TemplateInterface
 
     protected function getTemplateFilename()
     {
-        $filename = $this->name . '.' . $this->extension . '.twig';
+        $filename = $this->name.'/layout.' . $this->extension . '.twig';
 
         $template_path = $this->path . DIRECTORY_SEPARATOR . $filename;
         if (!file_exists($template_path)) {
@@ -67,9 +70,7 @@ class Twig implements TemplateInterface
 
     protected function getTwigEnvironment()
     {
-        $twig = new \Twig_Environment(new \Twig_Loader_Filesystem(
-            $this->path
-        ));
+        $twig = new \Twig_Environment(new \Twig_Loader_Filesystem($this->path));
 
         // we explicitly do not want to escape content; all escaping has been
         // handled by the converter itself
