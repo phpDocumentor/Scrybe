@@ -2,7 +2,7 @@
 /**
  * phpDocumentor
  *
- * PHP Version 5
+ * PHP Version 5.3
  *
  * @author    Mike van Riel <mike.vanriel@naenius.com>
  * @copyright 2010-2011 Mike van Riel / Naenius (http://www.naenius.com)
@@ -14,9 +14,21 @@ namespace phpDocumentor\Scrybe\Converter\RestructuredText\Directives;
 
 use \phpDocumentor\Scrybe\Converter\RestructuredText\Visitors\Discover;
 
+/**
+ * Directive used to process `.. image::` and collect images as assets to be
+ * copied.
+ *
+ * The filenames of the images are taken from the directive and added onto the
+ * assets collection during the discovery phase. These assets may then be copied
+ * to the destination location by the invoker.
+ *
+ * @see \phpDocumentor\Scrybe\Converter\Metadata\Assets
+ *
+ * @author Mike van Riel <mike.vanriel@naenius.com>
+ */
 class Image extends \ezcDocumentRstImageDirective
 {
-    /** @var Discover */
+    /** @var Discover The visitor used to discover the images */
     protected $visitor;
 
     /**

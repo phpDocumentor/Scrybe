@@ -2,7 +2,7 @@
 /**
  * phpDocumentor
  *
- * PHP Version 5
+ * PHP Version 5.3
  *
  * @author    Mike van Riel <mike.vanriel@naenius.com>
  * @copyright 2010-2011 Mike van Riel / Naenius (http://www.naenius.com)
@@ -39,6 +39,15 @@ namespace phpDocumentor\Scrybe\Converter\Metadata;
 class Glossary extends \ArrayObject
 {
 
+    /**
+     * Adds a glossary term to the collection.
+     *
+     * @param string $term
+     * @param string $filename
+     * @param int    $line_number
+     *
+     * @return void
+     */
     public function addTerm($term, $filename, $line_number)
     {
         if (!isset($this[$term])) {

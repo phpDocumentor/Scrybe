@@ -2,7 +2,7 @@
 /**
  * phpDocumentor
  *
- * PHP Version 5
+ * PHP Version 5.3
  *
  * @author    Mike van Riel <mike.vanriel@naenius.com>
  * @copyright 2010-2011 Mike van Riel / Naenius (http://www.naenius.com)
@@ -17,11 +17,13 @@ namespace phpDocumentor\Scrybe\Converter\Metadata;
  *
  * Each asset is represented by an entry containing the path to that asset
  * relative to the project root.
+ *
+ * @author Mike van Riel <mike.vanriel@naenius.com>
  */
 class Assets extends \ArrayObject
 {
     /**
-     * @var string
+     * @var string The root directory of the source documentation.
      */
     protected $project_root;
 

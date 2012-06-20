@@ -2,7 +2,7 @@
 /**
  * phpDocumentor
  *
- * PHP Version 5
+ * PHP Version 5.3
  *
  * @author    Mike van Riel <mike.vanriel@naenius.com>
  * @copyright 2010-2011 Mike van Riel / Naenius (http://www.naenius.com)
@@ -12,6 +12,12 @@
 
 namespace phpDocumentor\Scrybe\Converter\Metadata;
 
+/**
+ * This collection manages which headings were discovered during the discovery
+ * phase and stores them as entries.
+ *
+ * @author Mike van Riel <mike.vanriel@naenius.com>
+ */
 class TableOfContents extends \ArrayObject
 {
 

@@ -14,6 +14,18 @@ namespace phpDocumentor\Scrybe\Converter\RestructuredText\Directives;
 
 use \phpDocumentor\Scrybe\Converter\RestructuredText\Visitors\Discover;
 
+/**
+ * Directive used to process `.. figure::` and collect images as assets to be
+ * copied.
+ *
+ * The filenames of the images are taken from the directive and added onto the
+ * assets collection during the discovery phase. These assets may then be copied
+ * to the destination location by the invoker.
+ *
+ * @see \phpDocumentor\Scrybe\Converter\Metadata\Assets
+ *
+ * @author Mike van Riel <mike.vanriel@naenius.com>
+ */
 class Figure extends \ezcDocumentRstFigureDirective
 {
     /** @var Discover */

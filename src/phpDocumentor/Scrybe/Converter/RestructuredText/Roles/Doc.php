@@ -12,6 +12,14 @@
 
 namespace phpDocumentor\Scrybe\Converter\RestructuredText\Roles;
 
+/**
+ * The :doc: role creates a link to an external document.
+ *
+ * For this link you can either use relative locations or an absolute notation.
+ * The absolute notation uses the documentation root as starting directory.
+ *
+ * @author Mike van Riel <mike.vanriel@naenius.com>
+ */
 class Doc extends \ezcDocumentRstTextRole implements \ezcDocumentRstXhtmlTextRole
 {
     /**
@@ -35,6 +43,8 @@ class Doc extends \ezcDocumentRstTextRole implements \ezcDocumentRstXhtmlTextRol
      *
      * @param \DOMDocument $document
      * @param \DOMElement $root
+     *
+     * @return void
      */
     public function toXhtml(\DOMDocument $document, \DOMElement $root)
     {
