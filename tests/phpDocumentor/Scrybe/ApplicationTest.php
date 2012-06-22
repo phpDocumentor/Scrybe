@@ -21,6 +21,9 @@ namespace phpDocumentor\Scrybe;
  */
 class ApplicationTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @covers \phpDocumentor\Scrybe\Application
+     */
     public function testHasCorrectNameAndVersion()
     {
         $fixture = new Application();
@@ -30,6 +33,8 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Tests whether the application has initialized the manual:to-pdf Command.
+     *
+     * @covers \phpDocumentor\Scrybe\Application
      *
      * @return void
      */
@@ -41,6 +46,8 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Tests whether the application has initialized the manual:to-html Command.
+     *
+     * @covers \phpDocumentor\Scrybe\Application
      *
      * @return void
      */

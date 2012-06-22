@@ -81,6 +81,13 @@ class Twig implements TemplateInterface
      */
     public function setPath($path)
     {
+        if (!file_exists($path) || !is_dir($path)) {
+            throw new \InvalidArgumentException(
+                'Expected the template path to be an existing directory, '
+                .'received: '.$path
+            );
+        }
+
         $this->path = $path;
     }
 
