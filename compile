@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
-require_once __DIR__.'/vendor/.composer/autoload.php';
+require_once __DIR__.'/vendor/autoload.php';
 
-use phpDocumentor\Scrybe\Compiler;
+use phpDocumentor\Scrybe\PharCompiler;
 
 $compiler = new PharCompiler();
 $compiler->compile();

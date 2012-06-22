@@ -18,6 +18,5 @@ moment), combining multiple document sources into one and much much more.
 
    introduction
    usage
-   extending
-
-
+   internals
+   license

@@ -13,3 +13,6 @@ Scrybe aims to be an application to write:
 * Reference documentation for Development
 * Articles for publication in your favourite format
 * Books and booklets
+
+But it is also intended to help you create documentation stemming from different
+sources (such as multiple sub-modules).

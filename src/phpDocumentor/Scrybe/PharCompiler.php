@@ -64,7 +64,7 @@ class PharCompiler
             $this->addFile($phar, $file);
         }
 
-        $this->addFile($phar, new \SplFileInfo(__DIR__ . '/../../../LICENSE'), false);
+        $this->addFile($phar, new \SplFileInfo(__DIR__ . '/../../../docs/license.rst'), false);
         $this->addFile($phar, new \SplFileInfo(__DIR__ . '/../../../bin/scrybe.php'));
         $this->addFile($phar, new \SplFileInfo(__DIR__ . '/../../../vendor/autoload.php'));
         $this->addFile($phar, new \SplFileInfo(__DIR__ . '/../../../vendor/.composer/autoload.php'));
@@ -86,8 +86,6 @@ class PharCompiler
         $path = str_replace(
             dirname(dirname(dirname(__DIR__))).DIRECTORY_SEPARATOR, '', $file->getRealPath()
         );
-        var_dump($path);
-
         $content = file_get_contents($file);
         if ($strip) {
             $content = self::stripWhitespace($content);
@@ -113,19 +111,19 @@ class PharCompiler
 
 Phar::mapPhar('scrybe.phar');
 
-require_once 'phar://scrybe.phar/vendor/.composer/autoload.php';
+require_once 'phar://scrybe.phar/vendor/autoload.php';
 
 if ('cli' === php_sapi_name() && basename(__FILE__) === basename($_SERVER['argv'][0]) && isset($_SERVER['argv'][1])) {
     switch ($_SERVER['argv'][1]) {
         case 'update':
-            $remoteFilename = 'http://www.phpdoc.org/get/scrybe.phar';
+            $remoteFilename = 'http://www.phpdoc.org/scrybe.phar';
             $localFilename = __DIR__.'/scrybe.phar';
 
             file_put_contents($localFilename, file_get_contents($remoteFilename));
             break;
 
         case 'check':
-            $latest = trim(file_get_contents('http://www.phpdoc.org/get/scrybe-version'));
+            $latest = trim(file_get_contents('http://www.phpdoc.org/scrybe-version'));
 
             if ($latest != \phpDocumentor\Scrybe\Application::VERSION) {
                 printf("A newer Scrybe version is available (%s).\n", $latest);

@@ -1,5 +1,5 @@
-Extending Scrybe
-================
+Internals
+=========
 
 Build cycle
 -----------

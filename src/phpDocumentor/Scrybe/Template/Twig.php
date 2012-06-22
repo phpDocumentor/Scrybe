@@ -49,10 +49,11 @@ class Twig implements TemplateInterface
      */
     public function setName($name)
     {
-        if (!preg_match('/^[0-9a-zA-Z\-\_]$/', $name)) {
+        if (!preg_match('/^[0-9a-zA-Z\-\_]{3,}$/', $name)) {
             throw new \InvalidArgumentException(
                 'A template name may only be composed of alphanumeric '
-                .'characters, underscores or hyphens.'
+                .'characters, underscores or hyphens and have at least 3 '
+                .'characters.'
             );
         }
 
