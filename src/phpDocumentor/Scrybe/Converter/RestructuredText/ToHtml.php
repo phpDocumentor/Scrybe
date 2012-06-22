@@ -2,10 +2,10 @@
 /**
  * phpDocumentor
  *
- * PHP Version 5
+ * PHP Version 5.3
  *
  * @author    Mike van Riel <mike.vanriel@naenius.com>
- * @copyright 2010-2011 Mike van Riel / Naenius (http://www.naenius.com)
+ * @copyright 2012 Mike van Riel / Naenius (http://www.naenius.com)
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
@@ -19,11 +19,19 @@ use phpDocumentor\Scrybe\Converter\BaseConverter;
 use phpDocumentor\Scrybe\Logger;
 use phpDocumentor\Scrybe\Template\TemplateInterface;
 
+/**
+ * Class used to convert one or more RestructuredText documents to their HTML
+ * representation.
+ *
+ * This class uses a two-phase process to interpret and parse the
+ * RestructuredText documents, namely Discovery and Creation.
+ *
+ * @see manual://internals for a detailed description of the process.
+ *
+ * @author Mike van Riel <mike.vanriel@naenius.com>
+ */
 class ToHtml extends BaseConverter implements ToHtmlInterface
 {
-    /** @var \ezcDocumentRstOptions */
-    protected $options;
-
     /**
      * Discovers the data that is spanning all files.
      *
@@ -34,7 +42,7 @@ class ToHtml extends BaseConverter implements ToHtmlInterface
      * a table of contents, list of document titles for references, assets
      * and more.
      *
-     * @see manual://extending#build_cycle for more information regarding the
+     * @see manual://internals#build_cycle for more information regarding the
      *     build process.
      *
      * @return void
@@ -64,15 +72,15 @@ class ToHtml extends BaseConverter implements ToHtmlInterface
      * format.
      *
      * This method reads the files, converts them into the correct format and
-     * returns the contents of the conversion if the destination is
-     * scrybe://result or writes the files directly to the destination location.
+     * returns the contents of the conversion.
      *
-     * The template is used to decorate the individual files and can be obtained
-     * using the `\phpDocumentor\Scrybe\Template\Factory` class.
+     * The template is provided using the $template parameter and is used to
+     * decorate the individual files. It can be obtained using the
+     * `\phpDocumentor\Scrybe\Template\Factory` class.
      *
      * @param TemplateInterface $template
      *
-     * @see manual://extending#build_cycle for more information regarding the
+     * @see manual://internals#build_cycle for more information regarding the
      *     build process.
      *
      * @return string[]|null The contents of the resulting file(s) or null if

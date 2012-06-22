@@ -2,10 +2,10 @@
 /**
  * phpDocumentor
  *
- * PHP Version 5
+ * PHP Version 5.3
  *
  * @author    Mike van Riel <mike.vanriel@naenius.com>
- * @copyright 2010-2011 Mike van Riel / Naenius (http://www.naenius.com)
+ * @copyright 2012 Mike van Riel / Naenius (http://www.naenius.com)
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
@@ -30,13 +30,10 @@ namespace phpDocumentor\Scrybe\Converter;
  */
 class Factory
 {
-    /**
-     * @var Definition\Factory
-     */
+    /** @var Definition\Factory */
     protected $definition_factory = null;
-    /**
-     * @var array
-     */
+
+    /** @var ConverterInterface[] */
     protected $converters         = array();
 
     /**
@@ -115,12 +112,44 @@ class Factory
         return $result;
     }
 
-    protected function getDefaultDefinitionFactory()
+    /**
+     * Sets the converters for this Factory.
+     *
+     * @param ConverterInterface[] $converters
+     *
+     * @return void
+     */
+    public function setConverters(array $converters)
     {
-        $definition_factory = new Definition\Factory(new Format\Collection());
-        return $definition_factory;
+        $this->converters = $converters;
     }
 
+    /**
+     * Method used to retrieve the default Definition Factory.
+     *
+     * This is used when the user has not provided their own definition factory
+     * in the constructor.
+     *
+     * @see __construct() where this method is used.
+     *
+     * @return Definition\Factory
+     */
+    protected function getDefaultDefinitionFactory()
+    {
+        return new Definition\Factory(new Format\Collection());
+    }
+
+    /**
+     * Returns an array of all converters that are available by default.
+     *
+     * The user may optionally append more converters using the configuration
+     * or by directly instantiating or overriding this class.
+     *
+     * @todo consider moving this to a protected property as it is only a plain
+     *     array.
+     *
+     * @return string[][]
+     */
     protected function getDefaultConverters()
     {
         return array(
@@ -131,20 +160,15 @@ class Factory
     }
 
     /**
-     * @param \phpDocumentor\Scrybe\Converter\Definition\Factory $definition_factory
+     * Sets the Definition Factory used to retrieve definitions from.
+     *
+     * @param Definition\Factory $definition_factory
+     *
+     * @return void
      */
     protected function setDefinitionFactory(Definition\Factory $definition_factory)
     {
         $this->definition_factory = $definition_factory;
     }
 
-    /**
-     * Sets and validates the converters for this Factory.
-     *
-     * @param array $converters
-     */
-    public function setConverters(array $converters)
-    {
-        $this->converters = $converters;
-    }
 }
