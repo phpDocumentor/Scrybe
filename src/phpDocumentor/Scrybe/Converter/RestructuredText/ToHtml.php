@@ -101,7 +101,7 @@ class ToHtml extends BaseConverter implements ToHtmlInterface
             try {
                 $xhtml_document = $rst->getAsXhtml();
                 $converted_contents = $template->decorate(
-                    $xhtml_document->save()
+                    $xhtml_document->save(), $this->options
                 );
                 $rst->logStats();
             } catch(\Exception $e) {

@@ -45,10 +45,6 @@ class ToLatexCommand extends BaseConvertCommand
         );
 
         $this->addOption(
-            'title', null, InputOption::VALUE_OPTIONAL,
-            'The title of this document'
-        );
-        $this->addOption(
             'author', null, InputOption::VALUE_OPTIONAL,
             'Name of the author'
         );

@@ -52,7 +52,12 @@ abstract class BaseConvertCommand extends \Cilex\Command\Command
             ->addOption(
                 'input-format', 'i', InputOption::VALUE_OPTIONAL,
                 'which input format does the documentation sources have?',
-                'markdown'
+                'rst'
+            )
+            ->addOption(
+                'title', null, InputOption::VALUE_OPTIONAL,
+                'The title of this document',
+                'Scrybe'
             )
             ->addOption(
                 'template', null, InputOption::VALUE_OPTIONAL,
@@ -104,6 +109,8 @@ DESCRIPTION
 
         try {
             $converter = $this->getConverter($input);
+
+            $converter->setOption('title', $input->getOption('title'));
 
             $files = $converter->convert(
                 $this->buildCollection(
