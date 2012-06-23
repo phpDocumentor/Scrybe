@@ -70,11 +70,6 @@ function initializeContents()
     $('.view button.simple').click(function(){
         $('.side-nav li').addClass('view-simple');
     });
-
-// sorting example
-//    $('ol li').sort(
-//        function(a, b) { return a.innerHTML.toLowerCase() > b.innerHTML.toLowerCase() ? 1 : -1; }
-//    ).appendTo('ol');
 }
 
 $(document).ready(function() {
@@ -85,16 +80,6 @@ $(document).ready(function() {
     // do not show tooltips on iPad; it will cause the user having to click twice
     if(!$.browser.ipad) {
         $(".side-nav a").tooltip({'placement': 'top'});
-    }
-
-    // chrome cannot deal with certain situations; warn the user about reduced features
-    if ($.browser.chrome && (window.location.protocol == 'file:')) {
-        $("body > .container").prepend(
-            '<div class="alert alert-error"><a class="close" data-dismiss="alert">×</a>' +
-            'You are using Google Chrome in a local environment; AJAX interaction has been ' +
-            'disabled because Chrome cannot <a href="http://code.google.com/p/chromium/issues/detail?id=40787">' +
-            'retrieve files using Ajax</a>.</div>'
-        );
     }
 
     $('ul.nav-namespaces li a, ul.nav-packages li a').click(function(){

@@ -4,10 +4,11 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
     <meta charset="utf-8">
-    <title>phpDocumentor</title>
+    <title>{{title}}</title>
     <meta name="author" content="Mike van Riel">
     <meta name="description" content="">
     <link href="css/template.css" rel="stylesheet" media="all">
+    <link href="css/scrybe.css" rel="stylesheet" media="all">
     <script src="js/jquery-1.7.1.min.js" type="text/javascript"></script>
     <script src="js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script>
     <script src="js/bootstrap.min.js" type="text/javascript"></script>
@@ -22,47 +23,22 @@
 <div class="navbar navbar-fixed-top">
     <div class="navbar-inner">
         <div class="container">
-            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a><a class="brand" href="index.html">phpDocumentor</a>
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a><a class="brand" href="index.html">{{ title }}</a>
 
             <div class="nav-collapse">
                 <ul class="nav">
+                    <li><a href="index.html">Cover</a></li>
                     <li class="dropdown">
-                        <a href="#api" class="dropdown-toggle" data-toggle="dropdown"> API Documentation
-                            <b class="caret"></b></a>
+                        <a href="#chapters" class="dropdown-toggle" data-toggle="dropdown"> Chapters<b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a>Namespaces</a></li>
-                            <li>
-                                <a href="namespaces/phpDocumentor.html"><i class="icon-th"></i> phpDocumentor</a>
-                            </li>
+                            <li><a href="introduction.html"><i class="icon-th"></i> Introduction</a></li>
+                            <li><a href="usage.html"><i class="icon-th"></i> Usage</a></li>
+                            <li><a href="internals.html"><i class="icon-th"></i> Internals</a></li>
+                            <li><a href="license.html"><i class="icon-th"></i> License</a></li>
                         </ul>
                     </li>
-                    <li class="dropdown" id="charts-menu">
-                        <a href="#charts" class="dropdown-toggle" data-toggle="dropdown"> Charts
-                            <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a href="graph_class.html"><i class="icon-list-alt"></i> Class hierarchy diagram</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="dropdown" id="reports-menu">
-                        <a href="#reports" class="dropdown-toggle" data-toggle="dropdown"> Reports
-                            <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a href="errors.html"><i class="icon-remove-sign"></i> Errors
-                                    <span class="label label-info">137</span></a>
-                            </li>
-                            <li>
-                                <a href="markers.html"><i class="icon-map-marker"></i> Markers
-                                    <ul></ul>
-                                </a></li>
-                            <li>
-                                <a href="deprecated.html"><i class="icon-stop"></i> Deprecated elements
-                                    <span class="label label-info">0</span></a>
-                            </li>
-                        </ul>
-                    </li>
+                    <li><a href="glossary.html">Glossary</a></li>
+                    <li><a href="sitemap.html">Index</a></li>
                 </ul>
             </div>
         </div>
@@ -76,17 +52,28 @@
         </div>
     </noscript>
     <div class="hero-unit">
-        <h1>phpDocumentor</h1>
+        <h1>{{ title }}</h1>
         <h2>Documentation</h2>
     </div>
 
-        {{ contents }}
+    <div class="row">
+        {% if toc %}
+        <div class="span4 toc">
+            <h1>Table of Contents</h1>
+        </div>
+        {% endif %}
+        <div class="span{% if toc%}8{%else%}12{%endif%}">
+            <div class="well">
+                {{ contents }}
+            </div>
+        </div>
+    </div>
 
     <div class="row">
         <footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by
             <a href="http://glyphicons.com/">Glyphicons</a>.<br> Documentation is powered by
-            <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a5</a> and<br> generated on 2012-06-18T16:52:55+02:00.<br>
+            <a href="http://www.phpdoc.org/">Scrybe</a><br>
         </footer>
     </div>
 </div>

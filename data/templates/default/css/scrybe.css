@@ -1,0 +1,10 @@
+img.center
+{
+    display: block;
+    margin: 0 auto;
+}
+
+h1 {
+    font-family: 'Forum', "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #464;
+}
