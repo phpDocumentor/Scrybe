@@ -40,6 +40,10 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testContainsToPdfCommand()
     {
+        $this->markTestSkipped(
+            'PDF command is currently disabled until a new implementation is done'
+        );
+
         $fixture = new Application();
         $this->assertTrue($fixture['console']->has('manual:to-pdf'));
     }
