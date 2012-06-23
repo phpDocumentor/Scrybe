@@ -1,3 +1,6 @@
+License
+=======
+
 Copyright (c) 2012 Mike van Riel
 
 Permission is hereby granted, free of charge, to any person obtaining a copy

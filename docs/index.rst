@@ -1,5 +1,3 @@
-.. image:: images/logo.png
-
 Scrybe Documentation
 ====================
 
