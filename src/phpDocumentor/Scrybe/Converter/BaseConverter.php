@@ -189,7 +189,19 @@ abstract class BaseConverter implements ConverterInterface
 
         $this->configure();
         $this->discover();
+
+        $this->addTemplateAssets($template);
+
         return $this->create($template);
+    }
+
+    protected function addTemplateAssets($template)
+    {
+        /** @var \Symfony\Component\Finder\SplFileInfo $file_info */
+        foreach ($template->getAssets() as $filename => $file_info)
+        {
+            $this->assets->set($filename, $file_info->getRelativePathname());
+        }
     }
 
     /**
