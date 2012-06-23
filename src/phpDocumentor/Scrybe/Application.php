@@ -55,7 +55,11 @@ class Application extends \Cilex\Application
     protected function addCommands()
     {
         $this->command(new \phpDocumentor\Scrybe\Command\Manual\ToHtmlCommand());
-        $this->command(new \phpDocumentor\Scrybe\Command\Manual\ToLatexCommand());
-        $this->command(new \phpDocumentor\Scrybe\Command\Manual\ToPdfCommand());
+
+// FIXME: Disabled the ToLatex and ToPdf commands for now to prevent confusion
+//        of users.
+
+//        $this->command(new \phpDocumentor\Scrybe\Command\Manual\ToLatexCommand());
+//        $this->command(new \phpDocumentor\Scrybe\Command\Manual\ToPdfCommand());
     }
 }
