@@ -147,4 +147,21 @@ class TwigTest extends \PHPUnit_Framework_TestCase
         $fixture = new Twig();
         $fixture->setPath(__FILE__);
     }
+
+    /**
+     * @covers \phpDocumentor\Scrybe\Template\Twig::getAssets
+     */
+    public function testGetAssets()
+    {
+        $fixture = new Twig();
+        $assets = $fixture->getAssets();
+
+        $this->assertInternalType('array', $assets);
+        $this->assertGreaterThan(0, count($assets));
+        $this->assertInstanceOf('SplFileInfo', current($assets));
+        $this->assertStringStartsWith($fixture->getPath(), key($assets));
+        foreach(array_keys($assets) as $filename) {
+            $this->assertStringEndsNotWith('.twig', $filename);
+        }
+    }
 }

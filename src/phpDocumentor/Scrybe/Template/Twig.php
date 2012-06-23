@@ -163,6 +163,39 @@ class Twig implements TemplateInterface
     }
 
     /**
+     * Returns a list of files that need to be copied to the destination
+     * location.
+     *
+     * Examples of assets can be:
+     *
+     * * CSS files
+     * * Javascript files
+     * * Images
+     *
+     * Assets for this template engine means every file that is contained in
+     * a subfolder of the template folder and does not end with the extension
+     * twig.
+     *
+     * Thus every file in the root of the template folder is ignored and
+     * files and directories having only twig templates (considered as being
+     * includes) are not included in this list.
+     *
+     * @return string[]
+     */
+    public function getAssets()
+    {
+
+        $finder = new \Symfony\Component\Finder\Finder();
+        return iterator_to_array(
+            $finder->files()
+                ->in($this->path.DIRECTORY_SEPARATOR.$this->name)
+                ->depth('> 0')
+                ->notName('*.twig')
+                ->sortByName()
+        );
+    }
+
+    /**
      * Returns the filename for the template.
      *
      * The filename is composed of the following components:

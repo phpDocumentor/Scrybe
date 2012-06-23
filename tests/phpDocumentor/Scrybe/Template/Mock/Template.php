@@ -19,4 +19,5 @@ class Template implements \phpDocumentor\Scrybe\Template\TemplateInterface
     public function setPath($path) { }
     public function setExtension($extension) { }
     public function decorate($contents, array $options = array()) { }
+    public function getAssets() { }
 }
