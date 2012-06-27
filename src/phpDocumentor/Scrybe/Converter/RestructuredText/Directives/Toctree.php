@@ -60,7 +60,7 @@ class Toctree extends \ezcDocumentRstDirective
      */
     public function toXhtml(\DOMDocument $document, \DOMElement $root)
     {
-        $list = $document->createElement('ul');
+        $list = $document->createElement('ol');
         $root->appendChild($list);
 
         /** @var \ezcDocumentRstToken $token */
