@@ -4,7 +4,23 @@ img.center
     margin: 0 auto;
 }
 
+h1, h2, h3 {
+    color: #464;
+}
+
 h1 {
     font-family: 'Forum', "Helvetica Neue", Helvetica, Arial, sans-serif;
-    color: #464;
+}
+
+h2 {
+    padding: 0;
+    margin-top: 10px;
+}
+
+h3 {
+    font-weight: normal;
+}
+
+blockquote p {
+    font-size: 13px;
 }
