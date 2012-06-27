@@ -191,15 +191,22 @@ abstract class BaseConverter implements ConverterInterface
         $this->discover();
 
         $this->addTemplateAssets($template);
+        $this->setOption('toc', $this->toc->getHierarchical());
 
         return $this->create($template);
     }
 
+    /**
+     * Adds the assets of the template to the Assets manager.
+     *
+     * @param TemplateInterface $template
+     *
+     * @return void
+     */
     protected function addTemplateAssets($template)
     {
         /** @var \Symfony\Component\Finder\SplFileInfo $file_info */
-        foreach ($template->getAssets() as $filename => $file_info)
-        {
+        foreach ($template->getAssets() as $filename => $file_info) {
             $this->assets->set($filename, $file_info->getRelativePathname());
         }
     }
