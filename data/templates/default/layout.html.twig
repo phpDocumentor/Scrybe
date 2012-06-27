@@ -28,17 +28,19 @@
             <div class="nav-collapse">
                 <ul class="nav">
                     <li><a href="index.html">Cover</a></li>
+{# The chapters dropdown is disabled until the Table of Contents algorithm described in internals.rst is actually implemented #}
+{#
                     <li class="dropdown">
                         <a href="#chapters" class="dropdown-toggle" data-toggle="dropdown"> Chapters<b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a href="introduction.html"><i class="icon-th"></i> Introduction</a></li>
-                            <li><a href="usage.html"><i class="icon-th"></i> Usage</a></li>
-                            <li><a href="internals.html"><i class="icon-th"></i> Internals</a></li>
-                            <li><a href="license.html"><i class="icon-th"></i> License</a></li>
+                            {% for entry in toc %}
+                            <li><a href="{{ entry.entry.filename|slice(0,-4) }}.html"><i class="icon-th"></i> {{ entry.entry.name }}</a></li>
+                            {% endfor %}
                         </ul>
                     </li>
-                    <li><a href="glossary.html">Glossary</a></li>
-                    <li><a href="sitemap.html">Index</a></li>
+#}
+                    {#<li><a href="glossary.html">Glossary</a></li>#}
+                    {#<li><a href="sitemap.html">Index</a></li>#}
                 </ul>
             </div>
         </div>
@@ -57,12 +59,12 @@
     </div>
 
     <div class="row">
-        {% if toc %}
+        {% if page_toc %}
         <div class="span4 toc">
             <h1>Table of Contents</h1>
         </div>
         {% endif %}
-        <div class="span{% if toc%}8{%else%}12{%endif%}">
+        <div class="span{% if page_toc%}8{%else%}12{%endif%}">
             <div class="well">
                 {{ contents }}
             </div>
