@@ -10,6 +10,7 @@ and anything in between.
 Scrybe aims to support multiple input formats (only RestructuredText at the
 moment), combining multiple document sources into one and much much more.
 
+.. warning:: Please note that the application and this documentation is considered to be in alpha. All help is appreciated of course.
 
 .. toctree::
    :maxdepth: 2
