@@ -67,6 +67,10 @@ class Document extends \ezcDocumentRst
         $this->options->errorReporting = E_PARSE | E_ERROR;
 
         $this->registerDirective(
+            'code-block',
+            'phpDocumentor\Scrybe\Converter\RestructuredText\Directives\CodeBlock'
+        );
+        $this->registerDirective(
             'toctree',
             'phpDocumentor\Scrybe\Converter\RestructuredText\Directives\Toctree'
         );
