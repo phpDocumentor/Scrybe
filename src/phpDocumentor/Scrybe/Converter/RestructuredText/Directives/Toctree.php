@@ -63,20 +63,29 @@ class Toctree extends \ezcDocumentRstDirective
         $list = $document->createElement('ol');
         $root->appendChild($list);
 
+        $line = '';
         /** @var \ezcDocumentRstToken $token */
         foreach($this->node->tokens as $token) {
-            if ($token->type !== 5) {
+            if ($token->type === 2) {
+                $line = trim($line);
+                if ($line) {
+                    $list_item = $document->createElement('li');
+                    $list->appendChild($list_item);
+
+                    $link = $document->createElement('a', $this->getCaption($line));
+                    $list_item->appendChild($link);
+                    $link->setAttribute(
+                        'href', str_replace('\\', '/', $line).'.html'
+                    );
+                }
+                $line = '';
+            }
+
+            if ($token->type !== 5 && $token->type !== 4) {
                 continue;
             }
 
-            $list_item = $document->createElement('li');
-            $list->appendChild($list_item);
-
-            $link = $document->createElement('a', $this->getCaption($token));
-            $list_item->appendChild($link);
-            $link->setAttribute(
-                'href', str_replace('\\', '/', $token->content).'.html'
-            );
+            $line .= $token->content;
         }
     }
 
@@ -86,13 +95,13 @@ class Toctree extends \ezcDocumentRstDirective
      * The caption is retrieved by converting the filename to a human-readable
      * format.
      *
-     * @param \ezcDocumentRstToken $token
+     * @param \ezcDocumentRstToken $content
      *
      * @todo Use the TableOfContents collection to get the caption name.
      *
      * @return string
      */
-    protected function getCaption($token)
+    protected function getCaption($content)
     {
         return str_replace(
             array('-', '_'),
@@ -100,8 +109,7 @@ class Toctree extends \ezcDocumentRstDirective
             ucfirst(
                 ltrim(
                     substr(
-                        htmlspecialchars($token->content),
-                        strrpos($token->content, '/')
+                        htmlspecialchars($content), strrpos($content, '/')
                     ), '\\/')
             )
         );
