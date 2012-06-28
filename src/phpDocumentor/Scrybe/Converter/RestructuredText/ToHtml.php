@@ -93,6 +93,10 @@ class ToHtml extends BaseConverter implements ToHtmlInterface
         /** @var File $file */
         foreach($this->fileset as $file) {
             $rst = new Document($this, $file);
+            $destination = $this->getDestinationFilenameRelativeToProjectRoot(
+                $file
+            );
+            $this->setDestinationRoot($destination);
 
             Logger::getInstance()->log(
                 '> Parsing file "' . $file->getRealPath() . '"'
@@ -109,13 +113,32 @@ class ToHtml extends BaseConverter implements ToHtmlInterface
                 continue;
             }
 
-            $destination = $this->getDestinationFilenameRelativeToProjectRoot(
-                $file
-            );
             $result[$destination] = $converted_contents;
         }
 
         return $result;
     }
 
+    /**
+     * Sets the relative path to the root of the generated contents.
+     *
+     * Basically this method takes the depth of the given destination and
+     * replaces it with `..` unless the destination directory name is `.`.
+     *
+     * @param string $destination The destination path relative to the target
+     *     folder.
+     *
+     * @see $options for where the 'root' variable is set.
+     *
+     * @return void
+     */
+    protected function setDestinationRoot($destination)
+    {
+        $this->options['root'] = dirname($destination) != '.'
+            ? implode(
+                '/',
+                array_fill(0, count(explode('/', dirname($destination))), '..')
+            ) . '/'
+            : './';
+    }
 }
