@@ -184,7 +184,6 @@ class Twig implements TemplateInterface
      */
     public function getAssets()
     {
-
         $finder = new \Symfony\Component\Finder\Finder();
         return iterator_to_array(
             $finder->files()
