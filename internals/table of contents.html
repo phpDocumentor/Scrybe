@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:date="http://exslt.org/dates-and-times" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+    <meta charset="utf-8">
+    <title>Scrybe</title>
+    <meta name="author" content="Mike van Riel">
+    <meta name="description" content="">
+    <link href="../css/template.css" rel="stylesheet" media="all">
+    <link href="../css/scrybe.css" rel="stylesheet" media="all">
+    <script src="../js/jquery-1.7.1.min.js" type="text/javascript"></script>
+    <script src="../js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script>
+    <script src="../js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="../js/template.js" type="text/javascript"></script>
+    <script src="../js/prettify/prettify.min.js" type="text/javascript"></script>
+    <link rel="shortcut icon" href="../img/favicon.ico">
+            </head>
+<body>
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a><a class="brand" href="index.html">Scrybe</a>
+
+            <div class="nav-collapse">
+                <ul class="nav">
+                    <li><a href="../index.html">Cover</a></li>
+                                                        </ul>
+            </div>
+        </div>
+    </div>
+    <div class="go_to_top"><a href="#___" style="color: inherit">Back to top <i class="icon-upload icon-white"></i></a></div>
+</div>
+<div id="___" class="container">
+    <noscript>
+        <div class="alert alert-warning">
+            Javascript is disabled; several features are only available if Javascript is enabled.
+        </div>
+    </noscript>
+    <div class="hero-unit">
+        <h1>Scrybe</h1>
+        <h2>Documentation</h2>
+    </div>
+
+    <div class="row">
+                <div class="span12">
+            <div class="well">
+                <div class="article">
+  <div class="body">
+    <h1><a name="table_of_contents"></a>Table of Contents</h1>
+    <dl class="head"></dl>
+    <p>Scrybe generates a Table of Contents for every file by scanning for headings and includes (such as the <code>toctree</code> directive).</p>
+    <p>Every time a file named <code>index</code> (with the appropriate extension) is detected a new <code>module</code> is created and populated with entries.</p>
+    <p class="note"></p>
+    <blockquote>
+      <p>The concept behind using index files is that you can create modules at will or include the documentation of another project or library and it will show up in a modules listing.</p>
+    </blockquote>
+    <p>A TableOfContents tree is built using the instructions provided by the <code>toctree</code> directive, where the root of the tree is at the <code>index</code> file. This means that a file that is not mentioned in a <code>toctree</code> directive is never included in the Table of Contents. <em>It is however generated and can be linked to using hyperlinks.</em></p>
+    <div class="figure">
+      <img src="images/TableOfContents_Class_Diagram.png" alt="TableOfContents_Class_Diagram.png"></img>
+      <p>Class diagram</p>
+    </div>
+    <h2><a name="breadcrumb"></a>Breadcrumb</h2>
+    <p>The Table Of Contents can then be used to re-create a breadcrumb which may be displayed on each page. In general the breadcrumb follows the convention:</p>
+    <blockquote>
+      <p>Homepage indicator &gt; Module &gt; Chapter &gt; Subchapter</p>
+    </blockquote>
+    <p>To correctly implement a breadcrumb does every entry of the Table of Contents support a <code>getParent()</code>, <code>getNext()</code> and <code>getPrevious()</code> method that contains a pointer to another <code>File</code>.</p>
+    <h2><a name="detection_algorithm"></a>Detection algorithm</h2>
+    <p>Constructing the Table of Contents happens in two phases:</p>
+    <ol>
+      <li>
+        <p>Collecting files and headings.</p>
+      </li>
+      <li>
+        <p>Constructing a tree per module.</p>
+      </li>
+    </ol>
+    <p>During the collections phase does Scrybe gather a listing of all individual files in sequential order and a hierarchical listing of headings and files that point to the sequential file array.</p>
+    <p>This is a complete, yet unordered and unfiltered, table of contents.</p>
+    <p class="note"></p>
+    <blockquote>
+      <p>if we were to use this alone as basis for the table of contents then the display order would be as discovered on the file system and would it be hard for the user to influence the order of presentation.</p>
+    </blockquote>
+    <p>During the construction phase will Scrybe find all <code>File``s named 'index' and
+ending in the selected input extension (thus: index.rst for RestructuredText)
+and create a module object with that ``File</code> as root.</p>
+    <p>By appointing the 'index' file as root for a given module can the template iterate through the index and its children and as such discover the flow that connects the <code>toctree</code> directives.</p>
+    <p>This means that any document that is not connected using a <code>toctree</code> will not show up in the Table of Contents and is only available when linked to directly using, for example, the <code>:doc::</code> role.</p>
+  </div>
+</div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <footer class="span12">
+            Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by
+            <a href="http://glyphicons.com/">Glyphicons</a>.<br> Documentation is powered by
+            <a href="http://www.phpdoc.org/">Scrybe</a><br>
+        </footer>
+    </div>
+</div>
+</body>
+</html>
