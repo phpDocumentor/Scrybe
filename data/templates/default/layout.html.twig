@@ -28,17 +28,17 @@
             <div class="nav-collapse">
                 <ul class="nav">
                     <li><a href="{{ root }}index.html">Cover</a></li>
-{# The chapters dropdown is disabled until the Table of Contents algorithm described in internals.rst is actually implemented #}
-{#
                     <li class="dropdown">
                         <a href="#chapters" class="dropdown-toggle" data-toggle="dropdown"> Chapters<b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            {% for entry in toc %}
-                            <li><a href="{{ entry.entry.filename|slice(0,-4) }}.html"><i class="icon-th"></i> {{ entry.entry.name }}</a></li>
+                            {% for entry in toc.index.children %}
+                            <li><a href="{{ entry.filename }}.html"><i class="icon-th"></i> {{ entry.name }}</a></li>
+                                {% for subentry in entry.children %}
+                                <li><a href="{{ subentry.filename }}.html"><i class="icon-th"></i> {{ subentry.name }}</a></li>
+                                {% endfor %}
                             {% endfor %}
                         </ul>
                     </li>
-#}
                     {#<li><a href="glossary.html">Glossary</a></li>#}
                     {#<li><a href="sitemap.html">Index</a></li>#}
                 </ul>

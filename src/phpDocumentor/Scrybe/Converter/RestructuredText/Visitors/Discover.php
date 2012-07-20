@@ -12,6 +12,8 @@
 
 namespace phpDocumentor\Scrybe\Converter\RestructuredText\Visitors;
 
+use \phpDocumentor\Scrybe\Converter\Metadata\TableOfContents;
+
 /**
  * A specialized RestructuredText Parser/Visitor to aid in the discovery phase.
  *
@@ -20,20 +22,50 @@ namespace phpDocumentor\Scrybe\Converter\RestructuredText\Visitors;
  *
  * @author Mike van Riel <mike.vanriel@naenius.com>
  */
-class Discover extends \ezcDocumentRstXhtmlBodyVisitor
+class Discover extends Creator
 {
-    /** @var \phpDocumentor\Scrybe\Converter\RestructuredText\Document */
-    protected $rst;
+    /**
+     * This array is meant as a cache of the last entry per depth.
+     *
+     * To build a hierarchy from a non-recursive method, such as visitSection(),
+     * you need a way to reference the last Entry per depth.
+     *
+     * By keeping track of these pointers you know onto which parent you will
+     * need to add a node by checking which of higher depth was parsed last.
+     *
+     * Important: because it is possible that levels are 'skipped' we will need
+     * to unset all 'deeper' depths whn setting a new one. Otherwise we might
+     * inadvertently add an entry to the wrong tree.
+     *
+     * @var \phpDocumentor\Scrybe\Converter\Metadata\TableOfContents\Heading[]
+     */
+    protected $entry_pointers = array();
 
     /**
-     * Returns the RestructuredText Document to retrieve the specialized
-     * cross-document collections.
+     * This is a pointer to the last discovered heading.
      *
-     * @return \phpDocumentor\Scrybe\Converter\RestructuredText\Document
+     * Directives and roles may 'include' Files as children of the currently
+     * parsed heading. Elements as the toctree directive or a plain include
+     * are examples of such.
+     *
+     * @var \phpDocumentor\Scrybe\Converter\Metadata\TableOfContents\Heading
      */
-    public function getDocument()
+    protected $last_heading = null;
+
+    public function visit(\ezcDocumentRstDocumentNode $ast)
     {
-        return $this->rst;
+        $file = new TableOfContents\File();
+
+        // strip the extension of the filename to make matching easier
+        $file->setFilename($this->getFilenameWithoutExtension());
+        $this->entry_pointers[0] = null; // there is no level 0, 1-based list
+        $this->entry_pointers[1] = $file;
+        $this->last_heading = $file;
+var_dump($file->getFilename());
+        $toc  = $this->getTableOfContents();
+        $toc[] = $file;
+
+        return parent::visit($ast);
     }
 
     /**
@@ -53,17 +85,54 @@ class Discover extends \ezcDocumentRstXhtmlBodyVisitor
      */
     protected function visitSection(\DOMNode $root, \ezcDocumentRstSectionNode $node)
     {
-        /** @var \phpDocumentor\Scrybe\Converter\Metadata\TableOfContents $toc  */
-        $toc      = $this->getDocument()->getConverter()->getTableOfContents();
-        $filename = $this->getDocument()->getFile()->getFilename();
+        if ($node->depth == 1) {
+            $toc = $this->getTableOfContents();
+            $toc[$this->getFilenameWithoutExtension()]->setName(
+                $this->nodeToString($node->title)
+            );
+        } else {
+            // find nearest parent pointer depth-wise
+            $parent_depth = $node->depth - 1;
+            while (!isset($this->entry_pointers[$parent_depth])
+                && $parent_depth > 0
+            ) {
+                $parent_depth -= 1;
+            }
 
-        $entry = new \phpDocumentor\Scrybe\Converter\Metadata\TableOfContents\Entry();
-        $entry->setName($this->nodeToString($node->title));
-        $entry->setLevel($node->depth);
-        $entry->setFilename($filename);
-        $toc[$filename][] = $entry;
+            $parent = $this->entry_pointers[$parent_depth];
+            $heading = new TableOfContents\Heading($parent);
+            $heading->setName($this->nodeToString($node->title));
+            $parent->addChild($heading);
+
+            // set as last indexed heading
+            $this->last_heading = $heading;
+
+            // add as new entry pointer
+            array_splice(
+                $this->entry_pointers, $parent_depth+1, count($this->entry_pointers),
+                array($heading)
+            );
+        }
 
         parent::visitSection($root, $node);
     }
 
+    /**
+     * Adds a TableOfContents File object to the last heading that was
+     * discovered.
+     *
+     * This may be used by roles or directives to insert an include file
+     * into the TableOfContents and thus all its headings.
+     *
+     * This method is explicitly bound to File objects and not other BaseEntry
+     * descendents because inline elements such as headings should also
+     * modify the internal pointers for this visitor.
+     *
+     * @param \phpDocumentor\Scrybe\Converter\Metadata\TableOfContents\File $file
+     */
+    public function addFileToLastHeading(TableOfContents\File $file)
+    {
+        $this->last_heading->addChild($file);
+        $file->setParent($this->last_heading);
+    }
 }

@@ -191,7 +191,7 @@ abstract class BaseConverter implements ConverterInterface
         $this->discover();
 
         $this->addTemplateAssets($template);
-        $this->setOption('toc', $this->toc->getHierarchical());
+        $this->setOption('toc', $this->toc);
 
         return $this->create($template);
     }
@@ -232,7 +232,7 @@ abstract class BaseConverter implements ConverterInterface
      *
      * @return string
      */
-    protected function getDestinationFilenameRelativeToProjectRoot(File $file)
+    public function getDestinationFilenameRelativeToProjectRoot(File $file)
     {
         return substr(
             $this->getDestinationFilename($file),

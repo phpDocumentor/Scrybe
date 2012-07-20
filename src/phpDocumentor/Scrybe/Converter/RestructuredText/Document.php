@@ -63,7 +63,8 @@ class Document extends \ezcDocumentRst
     {
         parent::__construct();
 
-        $this->options->xhtmlVisitor = 'ezcDocumentRstXhtmlBodyVisitor';
+        $this->options->xhtmlVisitor
+            = 'phpDocumentor\Scrybe\Converter\RestructuredText\Visitors\Creator';
         $this->options->errorReporting = E_PARSE | E_ERROR;
 
         $this->registerDirective(

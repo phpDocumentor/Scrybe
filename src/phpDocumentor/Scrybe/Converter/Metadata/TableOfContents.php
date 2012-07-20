@@ -21,83 +21,62 @@ namespace phpDocumentor\Scrybe\Converter\Metadata;
 class TableOfContents extends \ArrayObject
 {
     /**
-     * Returns a hierarchical representation of the entries in this Table of
-     * Contents.
+     * Contains the list of modules for this Table of Contents.
      *
-     * The basic algorithm is:
-     *
-     * For each entry:
-     * - determine whether the level is
-     *   - higher than the previous, if so: add as child.
-     *   - equal to the previous, if so: add as sibling
-     *   - lower then the previous, if so:
-     *     - go up the tree and find the first item that is of rank equal or
-     *       lower
-     *       - if lower: add as child
-     *       - if equal: add as sibling
-     *
-     * @return TableOfContents\Entry[]
+     * @var TableOfContents\Module[]
      */
-    public function getHierarchical()
+    protected $modules = array();
+
+    public function offsetGet($index)
     {
-        $results = array();
-        $current = null;
-
-        /** @var TableOfContents\Entry $entry */
-        foreach ($this as $file) {
-            foreach ($file as $entry) {
-                if (!$current) {
-                    $results[] = array(
-                        'parent' => null,
-                        'entry'  => $entry,
-                        'children' => array()
-                    );
-                    $current = &$results[count($results)-1];
-                    continue;
-                }
-
-                if ($entry->getLevel() > $current['entry']->getLevel()) {
-                    $current['children'][] = array(
-                        'parent' => &$current,
-                        'entry'  => $entry,
-                        'children' => array()
-                    );
-                    $current = &$current['children'][count($current['children']) -1];
-                    continue;
-                }
-
-                // move higher up the tree until we have found the same level or
-                // have reached the top
-                while ($entry->getLevel() < $current['entry']->getLevel()
-                    && ($current['parent'] !== null)
-                ) {
-                    $current = &$current['parent'];
-                }
-
-                if ($current['parent'] === null) {
-                    // if no parent present; add as root object
-                    $results[] = array(
-                        'parent' => null,
-                        'entry'  => $entry,
-                        'children' => array()
-                    );
-                    $current = &$results[count($results)-1];
-                    continue;
-                } else {
-                    // add as sibling of the current element
-                    $current['parent']['children'][] = array(
-                        'parent' => &$current['parent'],
-                        'entry'  => $entry,
-                        'children' => array()
-                    );
-                    $current = &$current['parent']['children'][
-                        count($current['parent']['children']) -1
-                    ];
-                    continue;
-                }
-            }
+        if (!isset($this[$index])) {
+            $file = new TableOfContents\File();
+            $file->setFilename($index);
+            $this[] = $file;
         }
 
-        return $results;
+        return parent::offsetGet($index);
     }
+
+    /**
+     * Override offsetSet to force the use of the relative filename.
+     *
+     * @param void $index
+     * @param TableOfContents\File $newval
+     *
+     * @throws \InvalidArgumentException if something other than a file is
+     *     provided.
+     *
+     * @return void
+     */
+    public function offsetSet($index, $newval)
+    {
+        if (!$newval instanceof TableOfContents\File) {
+            throw new \InvalidArgumentException(
+                'A table of contents may only be filled with File objects'
+            );
+        }
+
+        $basename = basename($newval->getFilename());
+        if (strpos($basename, '.') !== false) {
+            $basename = substr($basename, 0, strpos($basename, '.'));
+        }
+
+        if (strtolower($basename) === 'index') {
+            $this->modules[] = $newval;
+        }
+
+        parent::offsetSet($newval->getFilename(), $newval);
+    }
+
+    /**
+     * Returns the list of modules.
+     *
+     * @return TableOfContents\Module[]
+     */
+    public function getModules()
+    {
+        return $this->modules;
+    }
+
 }

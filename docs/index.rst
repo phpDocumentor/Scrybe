@@ -12,6 +12,9 @@ moment), combining multiple document sources into one and much much more.
 
 .. warning:: Please note that the application and this documentation is considered to be in alpha. All help is appreciated of course.
 
+Table of Contents
+-----------------
+
 .. toctree::
    :maxdepth: 2
 
@@ -19,3 +22,6 @@ moment), combining multiple document sources into one and much much more.
    usage
    internals
    license
+
+Appendices
+----------
