@@ -24,4 +24,33 @@ namespace phpDocumentor\Scrybe\Converter\Metadata\TableOfContents;
  */
 class Heading extends BaseEntry
 {
+    /** @var string the slug used by the anchor */
+    protected $slug;
+
+    /**
+     * Sets the anchor slug for this entry.
+     *
+     * @param string $slug
+     *
+     * @return void
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+    }
+
+    /**
+     * Retrieves the anchor slug for this entry.
+     *
+     * @return string
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    public function getFilename()
+    {
+        return $this->getParent()->getFilename();
+    }
 }

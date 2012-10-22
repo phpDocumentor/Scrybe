@@ -54,16 +54,11 @@ class Discover extends Creator
 
     public function visit(\ezcDocumentRstDocumentNode $ast)
     {
-        $file = new TableOfContents\File();
-
-        // strip the extension of the filename to make matching easier
-        $file->setFilename($this->getFilenameWithoutExtension());
+        $toc = $this->getTableOfContents();
+        $file = $toc[$this->getFilenameWithoutExtension()];
         $this->entry_pointers[0] = null; // there is no level 0, 1-based list
         $this->entry_pointers[1] = $file;
         $this->last_heading = $file;
-var_dump($file->getFilename());
-        $toc  = $this->getTableOfContents();
-        $toc[] = $file;
 
         return parent::visit($ast);
     }
@@ -87,9 +82,8 @@ var_dump($file->getFilename());
     {
         if ($node->depth == 1) {
             $toc = $this->getTableOfContents();
-            $toc[$this->getFilenameWithoutExtension()]->setName(
-                $this->nodeToString($node->title)
-            );
+            $file = $toc[$this->getFilenameWithoutExtension()];
+            $file->setName($this->nodeToString($node->title));
         } else {
             // find nearest parent pointer depth-wise
             $parent_depth = $node->depth - 1;
@@ -102,6 +96,7 @@ var_dump($file->getFilename());
             $parent = $this->entry_pointers[$parent_depth];
             $heading = new TableOfContents\Heading($parent);
             $heading->setName($this->nodeToString($node->title));
+            $heading->setSlug($node->reference);
             $parent->addChild($heading);
 
             // set as last indexed heading

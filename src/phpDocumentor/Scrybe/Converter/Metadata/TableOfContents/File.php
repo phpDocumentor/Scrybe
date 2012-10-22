@@ -23,6 +23,8 @@ namespace phpDocumentor\Scrybe\Converter\Metadata\TableOfContents;
  */
 class File extends BaseEntry
 {
+    protected $hash = null;
+
     /**
      * The name for this file relative to the project's root.
      *
@@ -53,5 +55,13 @@ class File extends BaseEntry
     public function getFilename()
     {
         return $this->filename;
+    }
+
+    public function getHash()
+    {
+        if (!$this->hash) {
+            $this->hash = microtime(true);
+        }
+        return $this->hash;
     }
 }
