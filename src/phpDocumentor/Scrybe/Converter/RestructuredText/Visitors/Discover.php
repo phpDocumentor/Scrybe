@@ -69,8 +69,8 @@ class Discover extends Creator
      * This method interprets the heading and its containing text and adds new
      * entries to the TableOfContents object in the RestructuredText document.
      *
-     * @param \DOMNode                   $root
-     * @param \ezcDocumentRstSectionNode $node
+     * @param \DOMNode            $root
+     * @param \ezcDocumentRstNode $node
      *
      * @see getDocument() for the document containing the TableOfContents.
      * @see \phpDocumentor\Scrybe\Converter\Metadata\TableOfContents for the
@@ -78,7 +78,7 @@ class Discover extends Creator
      *
      * @return void
      */
-    protected function visitSection(\DOMNode $root, \ezcDocumentRstSectionNode $node)
+    protected function visitSection(\DOMNode $root, \ezcDocumentRstNode $node)
     {
         if ($node->depth == 1) {
             $toc = $this->getTableOfContents();
