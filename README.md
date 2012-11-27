@@ -1,4 +1,4 @@
-Scrybe
+Scrybe [![Build Status](https://secure.travis-ci.org/phpDocumentor/Scrybe.png)](http://travis-ci.org/phpDocumentor/Scrybe)
 ======
 
 Welcome to the documentation of Scrybe.
