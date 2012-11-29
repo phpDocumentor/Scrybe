@@ -3,6 +3,11 @@ Internals
 
 .. toctree::
 
-  internals/basic_design
-  internals/table_of_contents
+  internals/introduction
+  internals/theory_of_operation
+  internals/formats
+  internals/converters
+  internals/metadata
   internals/search
+  internals/templates
+  internals/plugins

@@ -1,5 +1,5 @@
-Basic design
-============
+Theory of Operation
+===================
 
 .. warning:: This document is a work in progress
 
