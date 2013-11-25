@@ -116,14 +116,14 @@ require_once 'phar://scrybe.phar/vendor/autoload.php';
 if ('cli' === php_sapi_name() && basename(__FILE__) === basename($_SERVER['argv'][0]) && isset($_SERVER['argv'][1])) {
     switch ($_SERVER['argv'][1]) {
         case 'update':
-            $remoteFilename = 'http://www.phpdoc.org/scrybe.phar';
+            $remoteFilename = 'https://github.com/phpDocumentor/Scrybe/blob/master/scrybe.phar?raw=true';
             $localFilename = __DIR__.'/scrybe.phar';
 
             file_put_contents($localFilename, file_get_contents($remoteFilename));
             break;
 
         case 'check':
-            $latest = trim(file_get_contents('http://www.phpdoc.org/scrybe-version'));
+            $latest = trim(file_get_contents('https://github.com/phpDocumentor/Scrybe/blob/master/scrybe-version?raw=true'));
 
             if ($latest != \phpDocumentor\Scrybe\Application::VERSION) {
                 printf("A newer Scrybe version is available (%s).\n", $latest);
